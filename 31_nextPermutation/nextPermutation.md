@@ -32,34 +32,40 @@ def nextPermutation(nums: List[int]) -> None:
     swap = inf
     swap_index = 0
     n = len(nums)
-
-    # find pivot - the first element from right that is smaller than its right neighbor
+    # find pivot
     for i in range(1, n):
         if nums[-i] > nums[-i - 1]:
             pivot = n - i - 1
+            print(f"pivot is {pivot} value is {nums[pivot]}")
             break
-
-    # the case where pivot is not found - array is in descending order
+    # the case where pivot is not exist
     if pivot == -1:
-        nums.sort()  # or simply reverse the array
+        nums.sort()
         return
 
-    # find the smallest element in nums[pivot+1:] that is greater than nums[pivot]
+    # find the number near nums[pivot] but bigger in nums[pivot:]
     for idx in range(pivot, len(nums)):
         if nums[idx] > nums[pivot] and nums[idx] < swap:
             swap = nums[idx]
             swap_index = idx
+    print(f"find swap {swap=}")
 
-    # swap pivot with the found element
+    # swap
     nums[swap_index], nums[pivot] = nums[pivot], nums[swap_index]
+    print(f"nums after swap {nums}")
 
-    # sort the subarray after pivot (or just reverse it since it's in descending order)
-    left = pivot + 1
-    right = len(nums) - 1
-    while left < right:
-        nums[left], nums[right] = nums[right], nums[left]
-        left += 1
-        right -= 1
+    # sort nums[pivot + 1:]
+    n = len(nums) - pivot - 1
+    while n > 1:
+        n -= 1
+        for i in range(n):
+            if nums[pivot + 1 + i] > nums[pivot + 2 + i]:
+                print(f"{nums[pivot + 1 + i]=} {nums[pivot + 2 + i]=}")
+                nums[pivot + 1 + i], nums[pivot + 2 + i] = (
+                    nums[pivot + 2 + i],
+                    nums[pivot + 1 + i],
+                )
+
 ```
 
 ## Examples
